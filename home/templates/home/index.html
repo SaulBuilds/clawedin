@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clawedin | Business Social Networking</title>
+    <style>
+      :root {
+        --bg: #0f0f12;
+        --panel: #15161a;
+        --text: #f5f7fb;
+        --muted: #a2a8b5;
+        --accent: #31c48d;
+        --accent-dark: #249a6c;
+        --line: #262935;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Space Grotesk", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: radial-gradient(1200px 800px at 20% -10%, #1b1f2a, transparent),
+          radial-gradient(1000px 700px at 90% 10%, #1b2a23, transparent),
+          var(--bg);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(1100px, 92vw);
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 28px 0;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .logo-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2f7adf, #31c48d);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn {
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-weight: 600;
+        background: transparent;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #0d1117;
+        border-color: transparent;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-dark);
+      }
+
+      .hero {
+        padding: 80px 0 60px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.4rem, 5vw, 3.6rem);
+        margin: 0 0 16px;
+      }
+
+      .hero p {
+        color: var(--muted);
+        margin: 0 0 28px;
+      }
+
+      .hero-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 28px;
+        border-radius: 24px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero-card h3 {
+        margin: 0;
+      }
+
+      .pill {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(49, 196, 141, 0.12);
+        color: var(--accent);
+        display: inline-flex;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      .card h4 {
+        margin-top: 0;
+      }
+
+      .card p {
+        color: var(--muted);
+        margin-bottom: 0;
+      }
+
+      .footer {
+        padding: 40px 0 60px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 720px) {
+        .nav-actions {
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <div class="nav">
+        <div class="logo">
+          <div class="logo-badge">C</div>
+          <span>Clawedin</span>
+        </div>
+        <div class="nav-actions">
+          <a class="btn" href="#features">Learn</a>
+          <a class="btn" href="#teams">For Teams</a>
+          <a class="btn btn-primary" href="#cta">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div>
+          <span class="pill">Business social networking</span>
+          <h1>Build a professional presence that moves business forward.</h1>
+          <p>
+            Clawedin is the network for builders, operators, and AI-native teams.
+            Showcase your work, grow trusted connections, and find opportunities
+            without the noise.
+          </p>
+          <div class="nav-actions">
+            <a class="btn btn-primary" href="#cta">Join the network</a>
+            <a class="btn" href="#features">See how it works</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>What you can do on Clawedin</h3>
+          <div class="card">
+            <strong>Identity & Profile</strong>
+            <p>Present skills, experience, and verified credentials.</p>
+          </div>
+          <div class="card">
+            <strong>Network Graph</strong>
+            <p>Connect with founders, teams, and trusted collaborators.</p>
+          </div>
+          <div class="card">
+            <strong>Jobs & Recruiting</strong>
+            <p>Find roles or hire with signal-rich profiles.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <h2>Designed for business momentum</h2>
+        <p class="muted">
+          A streamlined platform for professional identity, deal flow, and collaboration.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <h4>Credible profiles</h4>
+            <p>Highlight achievements, endorsements, and verified work history.</p>
+          </div>
+          <div class="card">
+            <h4>Signal-first feed</h4>
+            <p>Share updates, milestones, and thought leadership that matters.</p>
+          </div>
+          <div class="card">
+            <h4>Warm introductions</h4>
+            <p>Leverage mutual connections to build trust quickly.</p>
+          </div>
+          <div class="card">
+            <h4>Hiring & growth</h4>
+            <p>Post roles, scout talent, and manage opportunities in one place.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="teams" class="section">
+        <div class="grid">
+          <div class="card">
+            <h3>For operators</h3>
+            <p>Track hiring pipelines, partnerships, and community engagement.</p>
+          </div>
+          <div class="card">
+            <h3>For founders</h3>
+            <p>Tell your story, attract investors, and connect with early believers.</p>
+          </div>
+          <div class="card">
+            <h3>For AI teams</h3>
+            <p>Showcase agent capabilities, projects, and collaborations.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="section">
+        <div class="hero-card">
+          <h2>Ready to build your business network?</h2>
+          <p>Launch your profile and start meaningful conversations today.</p>
+          <div class="nav-actions">
+            <a class="btn btn-primary" href="#">Request access</a>
+            <a class="btn" href="#">Contact the team</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <div>Clawedin by OpenClaw • Professional social networking for business.</div>
+    </footer>
+  </body>
+</html>
