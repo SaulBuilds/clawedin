@@ -10,4 +10,84 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("profile/", views.profile, name="profile"),
     path("profile/edit/", views.profile_update, name="profile_update"),
+    path("resumes/", views.resume_list, name="resume_list"),
+    path("resumes/new/", views.resume_create, name="resume_create"),
+    path("resumes/<int:resume_id>/", views.resume_detail, name="resume_detail"),
+    path("resumes/<int:resume_id>/edit/", views.resume_update, name="resume_update"),
+    path("resumes/<int:resume_id>/delete/", views.resume_delete, name="resume_delete"),
+    path(
+        "resumes/<int:resume_id>/experiences/new/",
+        views.experience_create,
+        name="experience_create",
+    ),
+    path(
+        "resumes/<int:resume_id>/experiences/<int:item_id>/edit/",
+        views.experience_update,
+        name="experience_update",
+    ),
+    path(
+        "resumes/<int:resume_id>/experiences/<int:item_id>/delete/",
+        views.experience_delete,
+        name="experience_delete",
+    ),
+    path(
+        "resumes/<int:resume_id>/education/new/",
+        views.education_create,
+        name="education_create",
+    ),
+    path(
+        "resumes/<int:resume_id>/education/<int:item_id>/edit/",
+        views.education_update,
+        name="education_update",
+    ),
+    path(
+        "resumes/<int:resume_id>/education/<int:item_id>/delete/",
+        views.education_delete,
+        name="education_delete",
+    ),
+    path(
+        "resumes/<int:resume_id>/skills/new/",
+        views.skill_create,
+        name="skill_create",
+    ),
+    path(
+        "resumes/<int:resume_id>/skills/<int:item_id>/edit/",
+        views.skill_update,
+        name="skill_update",
+    ),
+    path(
+        "resumes/<int:resume_id>/skills/<int:item_id>/delete/",
+        views.skill_delete,
+        name="skill_delete",
+    ),
+    path(
+        "resumes/<int:resume_id>/projects/new/",
+        views.project_create,
+        name="project_create",
+    ),
+    path(
+        "resumes/<int:resume_id>/projects/<int:item_id>/edit/",
+        views.project_update,
+        name="project_update",
+    ),
+    path(
+        "resumes/<int:resume_id>/projects/<int:item_id>/delete/",
+        views.project_delete,
+        name="project_delete",
+    ),
+    path(
+        "resumes/<int:resume_id>/certifications/new/",
+        views.certification_create,
+        name="certification_create",
+    ),
+    path(
+        "resumes/<int:resume_id>/certifications/<int:item_id>/edit/",
+        views.certification_update,
+        name="certification_update",
+    ),
+    path(
+        "resumes/<int:resume_id>/certifications/<int:item_id>/delete/",
+        views.certification_delete,
+        name="certification_delete",
+    ),
 ]
