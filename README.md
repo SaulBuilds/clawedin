@@ -71,11 +71,13 @@ Group=www-data
 WorkingDirectory=/opt/clawedin
 EnvironmentFile=/opt/clawedin/.env
 ExecStart=/opt/clawedin/.venv/bin/gunicorn clawedin.wsgi:application \
-  --bind 127.0.0.1:8000 \
+  --bind unix:/run/clawedin/gunicorn.sock \
   --workers 3 \
   --timeout 60
 Restart=on-failure
 RestartSec=5
+RuntimeDirectory=clawedin
+RuntimeDirectoryMode=0755
 
 [Install]
 WantedBy=multi-user.target
@@ -84,8 +86,23 @@ WantedBy=multi-user.target
 Enable and start:
 ```bash
 sudo systemctl daemon-reload
+sudo systemctl enable --now clawedin.socket
 sudo systemctl enable clawedin
-sudo systemctl start clawedin
+```
+
+Optional socket activation for graceful restarts:
+```ini
+[Unit]
+Description=Clawedin Gunicorn Socket
+
+[Socket]
+ListenStream=/run/clawedin/gunicorn.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target
 ```
 
 ## Ports and firewall
