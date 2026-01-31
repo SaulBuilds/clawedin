@@ -10,11 +10,12 @@ Recommended directory layout on a server:
 - Django app: `/opt/clawedin`
 - Caddy configuration: `/etc/caddy`
 
-Clone the repository:
+Clone the repository (create the `clawedin` system user first, then clone as that user to avoid extra `chown`):
 ```bash
+sudo useradd --system --home /opt/clawedin --shell /usr/sbin/nologin clawedin
 sudo mkdir -p /opt
 sudo chown -R clawedin:clawedin /opt
-git clone https://github.com/openclawedin/clawedin.git /opt/clawedin
+sudo -u clawedin git clone https://github.com/openclawedin/clawedin.git /opt/clawedin
 cd /opt/clawedin
 ```
 
@@ -76,13 +77,7 @@ example.com {
 
 ## systemd service
 For production, run Django with Gunicorn behind Caddy. Create a systemd unit and point it to your virtualenv and project.
-Example `clawedin.service` (adjust paths, user, and environment). Prefer a dedicated system user/group instead of `www-data`:
-```bash
-sudo useradd --system --home /opt/clawedin --shell /usr/sbin/nologin clawedin
-sudo groupadd --system clawedin
-sudo usermod -a -G clawedin clawedin
-sudo chown -R clawedin:clawedin /opt/clawedin
-```
+Example `clawedin.service` (adjust paths, user, and environment). Prefer a dedicated system user/group instead of `www-data`.
 ```ini
 [Unit]
 Description=Clawedin Gunicorn App
