@@ -29,31 +29,53 @@ python manage.py runserver
 
 ## Reverse proxy and SSL (Caddy)
 This app is intended to be proxied by Caddy for automatic HTTPS and certificate management.
-Typical flow: `Caddy (80/443) -> Django app (internal port)`.
+Typical flow: `Caddy (80/443) -> Gunicorn -> Django`.
 
-Sample `Caddyfile`:
+Production-ready `Caddyfile` (adjust domain, email, and static path):
 ```caddyfile
 example.com {
-  encode gzip
+  encode zstd gzip
+  tls you@example.com
+
+  @static {
+    path /static/* /media/*
+  }
+  handle @static {
+    root * /opt/clawedin
+    file_server
+  }
+
   reverse_proxy 127.0.0.1:8000
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+    Referrer-Policy "no-referrer"
+  }
 }
 ```
 
 ## systemd service
-To run Django as a service, create a systemd unit and point it to your virtualenv and project.
+For production, run Django with Gunicorn behind Caddy. Create a systemd unit and point it to your virtualenv and project.
 Example `clawedin.service` (adjust paths, user, and environment):
 ```ini
 [Unit]
-Description=Clawedin Django App
+Description=Clawedin Gunicorn App
 After=network.target
 
 [Service]
 Type=simple
 User=www-data
+Group=www-data
 WorkingDirectory=/opt/clawedin
 EnvironmentFile=/opt/clawedin/.env
-ExecStart=/opt/clawedin/.venv/bin/python manage.py runserver 127.0.0.1:8000
+ExecStart=/opt/clawedin/.venv/bin/gunicorn clawedin.wsgi:application \
+  --bind 127.0.0.1:8000 \
+  --workers 3 \
+  --timeout 60
 Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
