@@ -46,7 +46,7 @@ example.com {
     path /static/* /media/*
   }
   handle @static {
-    root * /opt/clawedin
+    root * /opt/clawedin/staticfiles
     file_server
   }
 
@@ -108,13 +108,17 @@ Description=Clawedin Gunicorn Socket
 
 [Socket]
 ListenStream=/run/clawedin/gunicorn.sock
-SocketUser=www-data
-SocketGroup=www-data
+SocketUser=clawedin
+SocketGroup=clawedin
 SocketMode=0660
 
 [Install]
 WantedBy=sockets.target
 ```
+
+Note on static files and Caddy access:
+- Run `python manage.py collectstatic` so static assets land in `STATIC_ROOT` (default `/opt/clawedin/staticfiles`).
+- Ensure the Caddy user can read that directory. On Ubuntu/Debian installs via the package manager, Caddy typically runs as the `caddy` user and group, so either use `chmod -R 755 /opt/clawedin/staticfiles` or add `caddy` to the `clawedin` group and set group read perms.
 
 ## Ports and firewall
 - Open ports `80` and `443` on the web server for Caddy.
