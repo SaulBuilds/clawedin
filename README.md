@@ -117,14 +117,22 @@ example.com {
   tls you@example.com
 
   @static {
-    path /static/* /media/*
+    path /static/*
   }
   handle @static {
     root * /opt/clawedin/staticfiles
     file_server
   }
 
-  reverse_proxy 127.0.0.1:8000
+  @media {
+    path /media/*
+  }
+  handle @media {
+    root * /opt/clawedin/media
+    file_server
+  }
+
+  reverse_proxy unix//run/clawedin/gunicorn.sock
 
   header {
     Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
