@@ -31,8 +31,12 @@ python manage.py runserver
 This app is intended to be proxied by Caddy for automatic HTTPS and certificate management.
 Typical flow: `Caddy (80/443) -> Gunicorn -> Django`.
 
-Production-ready `Caddyfile` (adjust domain, email, and static path):
+Production-ready `Caddyfile` (adjust domain, email, and static path). Caddy will redirect HTTP (80) to HTTPS (443):
 ```caddyfile
+http://example.com {
+  redir https://example.com{uri} permanent
+}
+
 example.com {
   encode zstd gzip
   tls you@example.com
