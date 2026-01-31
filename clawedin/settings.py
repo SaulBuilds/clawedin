@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'search',
     'analytics',
     'trust_safety',
+    'home',
 ]
 
 MIDDLEWARE = [
