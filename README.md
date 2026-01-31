@@ -13,7 +13,7 @@ Recommended directory layout on a server:
 Clone the repository:
 ```bash
 sudo mkdir -p /opt
-sudo chown -R $USER:$USER /opt
+sudo chown -R clawedin:clawedin /opt
 git clone https://github.com/openclawedin/clawedin.git /opt/clawedin
 cd /opt/clawedin
 ```
