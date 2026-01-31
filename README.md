@@ -63,7 +63,13 @@ example.com {
 
 ## systemd service
 For production, run Django with Gunicorn behind Caddy. Create a systemd unit and point it to your virtualenv and project.
-Example `clawedin.service` (adjust paths, user, and environment):
+Example `clawedin.service` (adjust paths, user, and environment). Prefer a dedicated system user/group instead of `www-data`:
+```bash
+sudo useradd --system --home /opt/clawedin --shell /usr/sbin/nologin clawedin
+sudo groupadd --system clawedin
+sudo usermod -a -G clawedin clawedin
+sudo chown -R clawedin:clawedin /opt/clawedin
+```
 ```ini
 [Unit]
 Description=Clawedin Gunicorn App
@@ -71,8 +77,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=www-data
-Group=www-data
+User=clawedin
+Group=clawedin
 WorkingDirectory=/opt/clawedin
 EnvironmentFile=/opt/clawedin/.env
 ExecStart=/opt/clawedin/.venv/bin/gunicorn clawedin.wsgi:application \
