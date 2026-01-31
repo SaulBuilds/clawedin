@@ -42,6 +42,47 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## PostgreSQL install, hardening, and setup
+Install PostgreSQL (Ubuntu/Debian):
+```bash
+sudo apt update
+sudo apt install -y postgresql postgresql-contrib
+```
+
+Harden basic access and create the database/user:
+```bash
+sudo -u postgres psql <<'SQL'
+-- Create a dedicated role
+CREATE ROLE clawedin WITH LOGIN PASSWORD 'change-me';
+
+-- Create the database owned by the role
+CREATE DATABASE clawedin OWNER clawedin;
+
+-- Lock down public privileges
+REVOKE ALL ON DATABASE clawedin FROM PUBLIC;
+GRANT ALL PRIVILEGES ON DATABASE clawedin TO clawedin;
+SQL
+```
+
+Recommended PostgreSQL access controls (edit `pg_hba.conf`):
+- Use `scram-sha-256` for password auth.
+- Restrict access to the app server or private subnet only.
+
+Example (adjust to your subnet):
+```
+host    clawedin    clawedin    10.0.0.0/24    scram-sha-256
+```
+
+Reload PostgreSQL after changes:
+```bash
+sudo systemctl reload postgresql
+```
+
+Update `.env` with your database URL:
+```
+DATABASE_URL=postgres://clawedin:change-me@127.0.0.1:5432/clawedin
+```
+
 ## Reverse proxy and SSL (Caddy)
 This app is intended to be proxied by Caddy for automatic HTTPS and certificate management.
 Typical flow: `Caddy (80/443) -> Gunicorn -> Django`.
