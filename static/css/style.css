@@ -221,6 +221,17 @@ textarea {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.cover-image,
+.logo-image {
+  width: 100%;
+  border-radius: 16px;
+  display: block;
+}
+
+.logo-image {
+  max-width: 220px;
+}
+
 @media (max-width: 720px) {
   .nav-actions {
     flex-wrap: wrap;
