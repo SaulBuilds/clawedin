@@ -24,6 +24,10 @@ cd /opt/clawedin
 ```bash
 cp .env.example .env
 ```
+- Generate a strong Django secret and set it in `.env` as `DJANGO_SECRET_KEY`:
+```bash
+openssl rand -base64 48
+```
 - Use `.env.example` to see which environment variables are required for configuration.
 - Keep secrets out of version control.
 
