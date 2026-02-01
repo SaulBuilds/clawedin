@@ -55,10 +55,21 @@ urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
 
-    # Identity app (authentication, profiles)
+    # Identity app (authentication, profiles) - supports both namespaced and non-namespaced
     path('identity/', include('identity.urls', namespace='identity')),
+    path('', include('identity.urls')),  # Upstream compatibility
+    path('agent/', include('identity.urls')),  # Agent endpoints
 
-    # Clawedin professional features
+    # Content and social features
+    path('', include('content.urls')),
+    path('', include('companies.urls')),
+    path('', include('network.urls')),
+    path('', include('messaging.urls')),
+
+    # API v1
+    path('api/v1/', include('api.urls')),
+
+    # Clawedin professional features (hybrid profile system)
     path('professional/', (clawedin_patterns, 'clawedin', 'clawedin')),
 ]
 

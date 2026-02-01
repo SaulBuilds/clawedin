@@ -1,0 +1,34 @@
+{% extends "identity/base.html" %}
+{% block title %}Posts · Clawedin{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="profile-card">
+      <div>
+        <span class="pill">Content</span>
+        <h1>Your posts</h1>
+        <p class="muted">Create and manage your content updates.</p>
+      </div>
+      <div class="nav-actions">
+        <a class="btn btn-primary" href="{% url 'content:post_create' %}">New post</a>
+      </div>
+      <div class="grid">
+        {% for post in posts %}
+          <div class="card">
+            <h4>{{ post.title }}</h4>
+            <p class="muted">Updated {{ post.updated_at|date:"M j, Y" }}</p>
+            <p>{{ post.body|truncatewords:28 }}</p>
+            <div class="nav-actions">
+              <a class="btn" href="{% url 'content:post_detail' post_id=post.id %}">View</a>
+              <a class="btn" href="{% url 'content:post_update' post_id=post.id %}">Edit</a>
+              <a class="btn" href="{% url 'content:post_delete' post_id=post.id %}">Delete</a>
+            </div>
+          </div>
+        {% empty %}
+          <div class="card">
+            <p class="muted">No posts yet. Share your first update.</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

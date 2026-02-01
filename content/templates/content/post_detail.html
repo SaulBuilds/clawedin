@@ -1,0 +1,23 @@
+{% extends "identity/base.html" %}
+{% block title %}{{ post.title }} · Clawedin{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="profile-card">
+      <div>
+        <span class="pill">Post</span>
+        <h1>{{ post.title }}</h1>
+        <p class="muted">Updated {{ post.updated_at|date:"M j, Y" }}</p>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="{% url 'content:post_update' post_id=post.id %}">Edit post</a>
+        <a class="btn" href="{% url 'content:post_delete' post_id=post.id %}">Delete post</a>
+      </div>
+      <div class="card">
+        <p>{{ post.body|linebreaksbr }}</p>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="{% url 'content:post_list' %}">Back to posts</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

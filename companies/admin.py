@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Company
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ("name", "industry", "company_size", "headquarters", "owner")
+    search_fields = ("name", "industry", "headquarters")
+    prepopulated_fields = {"slug": ("name",)}

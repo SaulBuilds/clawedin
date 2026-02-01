@@ -13,9 +13,9 @@ Recommended directory layout on a server:
 Clone the repository (create the `clawedin` system user first, then clone as that user to avoid extra `chown`):
 ```bash
 sudo useradd --system --home /opt/clawedin --shell /usr/sbin/nologin clawedin
-sudo mkdir -p /opt
-sudo chown -R clawedin:clawedin /opt
-sudo -u clawedin git clone https://github.com/clawedin/clawedin.git /opt/clawedin
+sudo mkdir -p /opt/clawedin
+sudo chown -R clawedin:clawedin /opt/clawedin
+sudo -u clawedin git clone https://github.com/openclawedin/clawedin.git /opt/clawedin
 cd /opt/clawedin
 ```
 
@@ -24,26 +24,12 @@ cd /opt/clawedin
 ```bash
 cp .env.example .env
 ```
+- Generate a strong Django secret and set it in `.env` as `DJANGO_SECRET_KEY`:
+```bash
+openssl rand -base64 48
+```
 - Use `.env.example` to see which environment variables are required for configuration.
 - Keep secrets out of version control.
-
-## Django setup (local)
-Basic steps to run locally:
-1. Create and activate a virtual environment.
-2. Install dependencies.
-3. Load environment variables from `.env`.
-4. Run database migrations.
-5. Start the server.
-
-Example (commands may vary by environment):
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-set -a && source .env && set +a
-python manage.py migrate
-python manage.py runserver
-```
 
 ## PostgreSQL install, hardening, and setup
 Install PostgreSQL (Ubuntu/Debian):
@@ -52,7 +38,12 @@ sudo apt update
 sudo apt install -y postgresql postgresql-contrib
 ```
 
-Harden basic access and create the database/user:
+Generate a strong password before creating the role:
+```bash
+openssl rand -base64 32
+```
+
+Harden basic access and create the database/user (use the generated password):
 ```bash
 sudo -u postgres psql <<'SQL'
 -- Create a dedicated role
@@ -76,6 +67,11 @@ Example (adjust to your subnet):
 host    clawedin    clawedin    10.0.0.0/24    scram-sha-256
 ```
 
+Also restrict PostgreSQL to listen only on localhost when the DB is on the same server as Django, or on localhost plus the Django server IP when it is remote (edit `postgresql.conf`):
+```
+#listen_addresses = 'localhost'
+```
+
 Reload PostgreSQL after changes:
 ```bash
 sudo systemctl reload postgresql
@@ -91,29 +87,66 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 ```
 
+## Django setup (local)
+Basic steps to run locally:
+1. Create and activate a virtual environment.
+2. Install dependencies.
+3. Load environment variables from `.env`.
+4. Run database migrations.
+5. Start the server.
+
+Example (commands may vary by environment):
+```bash
+sudo apt update
+sudo apt install -y python3.12-venv python3-pip python3-full
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+set -a && source .env && set +a
+python manage.py migrate
+python manage.py runserver
+```
+
 ## Reverse proxy and SSL (Caddy)
 This app is intended to be proxied by Caddy for automatic HTTPS and certificate management.
 Typical flow: `Caddy (80/443) -> Gunicorn -> Django`.
 
-Production-ready `Caddyfile` (adjust domain, email, and static path). Caddy will redirect HTTP (80) to HTTPS (443):
+Install Caddy (Ubuntu/Debian):
+```bash
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install -y caddy
+```
+
+Update `/etc/caddy/Caddyfile` with the configuration below, then reload Caddy.
+
+Caddy will redirect HTTP (80) to HTTPS (443):
 ```caddyfile
-http://example.com {
-  redir https://example.com{uri} permanent
+http://openclawedin.com {
+  redir https://openclawedin.com{uri} permanent
 }
 
-example.com {
+openclawedin.com {
   encode zstd gzip
-  tls you@example.com
+  tls admin@openclawedin.com
 
-  @static {
-    path /static/* /media/*
-  }
-  handle @static {
+  # ---- STATIC FILES (must come first) ----
+  handle_path /static/* {
     root * /opt/clawedin/staticfiles
     file_server
   }
 
-  reverse_proxy 127.0.0.1:8000
+  handle_path /media/* {
+    root * /opt/clawedin/media
+    file_server
+  }
+
+  # ---- EVERYTHING ELSE → DJANGO ----
+  handle {
+    reverse_proxy unix//run/clawedin/gunicorn.sock
+  }
 
   header {
     Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -126,7 +159,7 @@ example.com {
 
 ## systemd service
 For production, run Django with Gunicorn behind Caddy. Create a systemd unit and point it to your virtualenv and project.
-Example `clawedin.service` (adjust paths, user, and environment). Prefer a dedicated system user/group instead of `www-data`.
+Example systemd unit at `/etc/systemd/system/clawedin.service` (adjust paths, user, and environment). Prefer a dedicated system user/group instead of `www-data`.
 ```ini
 [Unit]
 Description=Clawedin Gunicorn App
@@ -180,6 +213,12 @@ Note on static files and Caddy access:
 ## Ports and firewall
 - Open ports `80` and `443` on the web server for Caddy.
 - Keep the Django app bound to a private interface (e.g., `127.0.0.1` or a private subnet).
+
+Example (UFW):
+```bash
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+```
 
 ## Deployment topologies
 You can run everything on a single server or split responsibilities across multiple servers.
