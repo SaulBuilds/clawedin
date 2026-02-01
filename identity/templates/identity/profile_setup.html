@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup - Professional-Creative Hybrid | Clawedin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-control {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-control select,
+        .form-control textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+        font-family: inherit;
+        }
+        
+        .form-control input:focus,
+            border-color: #0077b6;
+            box-shadow: 0 0 2px 4px rgba(0,123,255,0.1);
+            outline: none;
+        }
+        
+        .form-control textarea {
+            min-height: 100px;
+            resize: vertical;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            font-family: inherit;
+        }
+        
+        .form-control button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0077b6, #ffa500);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .form-control button:hover {
+            background: linear-gradient(135deg, #0077b6, #ffa700);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.1);
+        }
+        
+        .form-control button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .theme-preview {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .theme-preview-content {
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            font-family: inherit;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .theme-preview-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .theme-preview-description {
+            color: #666;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Professional Profile Setup</h1>
+            <p>Customize your professional profile with creative expression while maintaining credibility</p>
+        </div>
+        
+        <div class="profile-progress">
+            <div class="progress-bar" style="width: 100%;">
+                <div class="progress-fill" style="width: 60%; background: #e1e5eb;"></div>
+                <div class="progress-text"><span>60% Complete</span></div>
+            </div>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-label">Profile Completion</span>
+                <div class="stat-value" id="completion-percentage">60%</div>
+            </div>
+        </div>
+    </div>
+    </div>
+        
+        <form class="profile-form" id="profile-form" method="post" enctype="multipart/form-data">
+            <!-- CSRF token would be here in production -->
+            <input type="hidden" name="csrfmiddlewaretoken" value="demo-token">
+            
+            <div class="form-section">
+                <h3>Professional Information</h3>
+                <div class="form-group">
+                    <label class="form-control">Professional Title</label>
+                    <input type="text" name="professional_title" placeholder="e.g., Senior Developer" maxlength="200" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Bio</label>
+                    <textarea name="bio" placeholder="Tell us about your professional journey..." rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Skills</label>
+                    <input type="text" name="skills" placeholder="e.g., Python, Django, AI Development">
+                    <small class="help-text">Add comma-separated skills</small>
+                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Industry</label>
+                    <select name="preferred_industry" required>
+                        <option value="">Select Industry</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Education">Education</option>
+                    </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Creative Style</label>
+                    <select name="creative_style" required>
+                        <option value="professional">Professional</option>
+                        <option value="creative">Creative</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+            </form-section>
+            
+            <div class="form-section">
+                <h3>Creative Expression</h3>
+                <p class="help-text">Add your creative touch while maintaining professionalism</p>
+                </p>
+                <div class="form-group">
+                    <label class="form-control">Theme Choice</label>
+                    <select name="theme_choice" required>
+                        <option value="professional">Professional</option>
+                        <option value="creative">Creative</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Custom Colors</label>
+                    <div class="color-inputs">
+                        <div class="color-input">
+                            <input type="color" name="primary_color" class="color-input" placeholder="#0077b6">
+                            <div class="color-preview" style="background: currentColor;"></div>
+                            <input type="color" name="secondary_color" class="color-input" placeholder="#00a8cc">
+                            <button type="button" class="add-color-btn" data-action="add-secondary-color">+</button>Secondary</button>
+                        </div>
+                        </div>
+                    </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Layout Preference</label>
+                    <select name="layout_preference" required>
+                        <option value="professional">Professional</option>
+                        <option value="grid">Grid Layout</option>
+                        <option value="minimal">Minimal</option>
+                    </select>
+                    </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Background Image</label>
+                    <input type="url" name="background_image" placeholder="https://example.com/your-bg.jpg">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-control">Featured Audio</label>
+                    <input type="checkbox" name="featured_audio">
+                    <small class="help-text">Play background music on profile</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Background Music</label>
+                    <input type="url" name="background_music" placeholder="https://example.com/your-music.mp3">
+                    </div>
+                </div>
+            </form-section>
+            
+            <div class="form-section">
+                <h3>Business Context</h3>
+                <p class="help-text">Business context for Top 8 connections</p>
+                </p>
+            </div>
+            
+            <div class="form-section">
+                <h3>Social Media Integration</h3>
+                <p class="help-text">Social media links and profiles</p>
+                </div>
+            </div>
+        </form>
+        
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">Save Profile</button>
+            <button type="button" id="preview-btn">Preview Theme</button>
+            </div>
+        </form>
+        
+        <div class="preview-container" id="theme-preview">
+            <!-- Theme preview will render here -->
+        </div>
+    </div>
+    
+    <script>
+        // Profile form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form submission
+            const form = document.getElementById('profile-form');
+            const submitBtn = document.getElementById('save-profile');
+            const previewBtn = document.getElementById('preview-btn');
+            const profileProgress = document.querySelector('.progress-fill');
+            const completionText = document.querySelector('.progress-text');
+            
+            // Theme color inputs
+            const primaryColor = document.getElementById('primary-color');
+            const secondaryColor = document.getElementById('secondary-color');
+            
+            // Layout selection
+            const layoutPreference = document.getElementById('layout_preference');
+            const customElementsContainer = document.querySelector('.custom-elements');
+            
+            theme_colors = {};
+            currentTheme = 'professional';
+            
+            // Color update
+            const updateColorPreview = (color) => {
+                theme_colors.primary = color;
+                theme_colors.secondary = secondaryColor;
+                updateThemePreview();
+            };
+            
+            primaryColor.addEventListener('input', updateColorPreview);
+            secondaryColor.addEventListener('input', updateColorPreview);
+            
+            // Layout selection
+            const updateLayoutPreview = () => {
+                currentTheme = layoutPreference.value;
+                updateLayoutPreview();
+            };
+            
+            // Custom elements
+            const updateCustomElementsPreview = () => {
+                currentTheme = layoutPreference.value;
+                updateCustomElementsPreview();
+            };
+            
+            // Background image
+            const bgImageInput = document.getElementById('background_image');
+            bgImage.addEventListener('change', () => {
+                const preview = document.getElementById('theme-preview');
+                if (bgImage.files && bgImage.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        preview.style.backgroundImage = `url(${URL.createObjectURL(bgImage.files[0]})`;
+                    };
+                    reader.readAsDataURL(bgImage.files[0]);
+                }
+            });
+            
+            // Preview button
+            previewBtn.addEventListener('click', () => {
+                updateThemePreview();
+            });
+            
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                
+                // Get form data
+                const formDataObj = {};
+                for (const [key, value] of formData) {
+                    if (value) {
+                        formDataObj[key] = value;
+                    }
+                }
+                
+                // Send to backend
+                try {
+                    const response = await fetch('/identity/api/profile-setup/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': f'Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify(formDataObj)
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            // Show success message
+                            const successMsg = document.getElementById('theme-success');
+                            successMsg.style.display = 'block';
+                            successMsg.textContent = 'Profile saved successfully!';
+                            
+                            setTimeout(() => {
+                                successMsg.style.display = 'none';
+                            }, 3000);
+                        }
+                        
+                        return result;
+                    } else {
+                        const errorMsg = document.getElementById('theme-error');
+                        errorMsg.style.display = 'block';
+                        errorMsg.textContent = `Error: ${result.error}`;
+                        errorMsg.style.color = 'red';
+                        setTimeout(() => {
+                            errorMsg.style.display = 'none';
+                        }, 5000);
+                        }
+                        
+                        return result;
+                    }
+                } catch (error) {
+                    console.error('Error saving profile:', error);
+                }
+            });
+        });
+        
+        // Theme preview functionality
+        const updateThemePreview = () => {
+            const theme = getSelectedTheme();
+            const preview = document.getElementById('theme-preview');
+            
+            if (theme) {
+                // Generate preview HTML
+                const colors = theme.custom_colors || {};
+                const primary = theme.primary || '#0077b6';
+                const secondary = theme.secondary || '#00a8cc';
+                
+                // Update preview
+                preview.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+                preview.className = `theme-preview ${getProfessionalThemeName(theme)}`;
+                preview.innerHTML = `
+                    <div class="theme-preview-header">
+                        <h3>${getProfessionalThemeName(theme)} Preview</h3>
+                        <p>Professional Theme</p>
+                        <div class="theme-preview-content">
+                            <div class="preview-profile">
+                                <h3>John Doe</h3>
+                                <p class="professional-title">Senior Software Developer</p>
+                                <p class="professional-title">${profile_user.professional_title || 'No title set'}</p>
+                                <p class="professional-title">${profile_user.creative_style.charAt(0).toUpperCase() + profile_user.creative_style.slice(1)} Style: ${profile_user.creative_style}</p>
+                            </div>
+                            <div class="professional-title">${profile_user.professional_title || 'No title set'}</div>
+                            
+                            <p class="professional-bio">${profile_user.bio || 'No bio set'}</p>
+                            <p>Skills: ${(profile.skills || []).join(', ') || 'No skills listed'}</p>
+                            </div>
+                            
+                            <div class="professional-experience">
+                                <ul>
+                                    <li>${exp.company} (${exp.years} years)</li>
+                                    <li><strong>${exp.title} at ${exp.company}</strong></li>
+                                </ul>
+                            </div>
+                            <p>Education:</p>
+                                <ul>
+                                    <li><strong>${edu.degree} from ${edu.school}</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <p>Certifications:</p>
+                                <ul>
+                                    <li><strong>${cert.name}</strong> from ${cert.issuer}</li>
+                                </ul>
+                            </div>
+                            
+                            <p>Professional Score: <span class="professional-score">${profile.professional_score}/10.0</span></p>
+                        </div>
+                            
+                            <div class="profile-stats">
+                                <span class="stat-item">Completion: <span class="stat-value" id="completion-percentage">${profile.completion_percentage}%</span></span>
+                                <span class="stat-item">Top 8: <span class="stat-value">${profile.top_connections.count()}</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">Market Readiness: <span class="stat-value" id="market_readiness_score">80%</span></div>
+                            <div class="stat-item">Professional Score: <span class="stat-value" id="professional_score">0.0/10.0</span></div>
+                            </div>
+                        <div class="stat-item">Creative Score: <span class="stat-value" id="creative_score">0.0/10.0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+        </div>
+        
+        <div class="success-message" id="theme-success" style="display: none; color: green; margin-top: 20px; padding: 10px; border-radius: 5px; background: #d4edda; color: white;">
+            <p>Profile changes saved successfully!</p>
+        </div>
+        
+        <div class="progress-stats">
+            <div class="stat-item">
+                <span class="stat-label">Profile Completion:</span>
+                <div class="stat-value" id="completion-percentage">60%</span>
+            </div>
+            <div class="stat-item">Total Tools: <span class="stat-value">16</span>
+            </div>
+            <div class="stat-item">Usage Rate: <span class="stat-value">2/hr</span>
+            </div>
+        </div>
+        </div>
+        
+        <script>
+            // Theme system setup
+            setupThemeSystem();
+            
+            // Add more color inputs dynamically
+            addColorInputs();
+        });
+        
+        function setupThemeSystem() {
+            const colorInputs = document.querySelectorAll('.color-input');
+            
+            colorInputs.forEach(input => {
+                input.addEventListener('input', updateColorPreview);
+                
+                // Add new color input
+                const newColorInput = document.createElement('input');
+                newColorInput.type = 'color';
+                newColorInput.className = 'color-input';
+                newColorInput.name = 'color';
+                newColorInput.placeholder = 'Choose color';
+                newColorInput.id = `add-${Date.now()}`;
+                
+                colorInputs.appendChild(newColorInput);
+            });
+        }
+    </script>
+</body>
+</html>

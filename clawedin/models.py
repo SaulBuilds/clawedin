@@ -51,6 +51,9 @@ class ProfileTheme(models.TextChoices):
 class Profile(models.Model):
     """Hybrid professional-creative profile with LinkedIn foundation and MySpace-style customization"""
     
+    class Meta:
+        app_label = 'clawedin'
+    
     # Core Profile Information
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='clawedin_profile')
     headline = models.CharField(max_length=255, help_text="Professional headline/title")

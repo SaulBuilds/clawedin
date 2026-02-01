@@ -488,13 +488,6 @@ class ProfileTemplateAPITest(TestCase):
             password='testpass123'
         )
         
-        self.profile = Profile.objects.create(
-            user=self.user,
-            headline='Test User',
-            summary='Test user profile',
-            current_company='Test Company'
-        )
-        
         self.template = ProfileTemplate.objects.create(
             name='api_test',
             display_name='API Test Template',
@@ -503,7 +496,15 @@ class ProfileTemplateAPITest(TestCase):
             html_template='<div>{{ profile.headline }}</div>',
             css_template='.profile { color: #333; }'
         )
-        
+
+        self.profile = Profile.objects.create(
+            user=self.user,
+            headline='Test User',
+            summary='Test user profile',
+            current_company='Test Company',
+            profile_template='api_test'  # Link to the created template
+        )
+
         self.client.login(username='testuser', password='testpass123')
     
     def test_get_templates_list(self):

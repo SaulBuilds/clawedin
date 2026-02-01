@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 48" width="180" height="48">
+  <!-- Icon -->
+  <rect x="0" y="0" width="48" height="48" rx="8" fill="white"/>
+  <text x="24" y="33" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#dc2626" text-anchor="middle">in</text>
+
+  <!-- Text -->
+  <text x="60" y="34" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="white">Claw<tspan fill="#fecaca">ed</tspan>in</text>
+</svg>

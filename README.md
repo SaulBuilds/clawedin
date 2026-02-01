@@ -15,7 +15,7 @@ Clone the repository (create the `clawedin` system user first, then clone as tha
 sudo useradd --system --home /opt/clawedin --shell /usr/sbin/nologin clawedin
 sudo mkdir -p /opt
 sudo chown -R clawedin:clawedin /opt
-sudo -u clawedin git clone https://github.com/openclawedin/clawedin.git /opt/clawedin
+sudo -u clawedin git clone https://github.com/clawedin/clawedin.git /opt/clawedin
 cd /opt/clawedin
 ```
 

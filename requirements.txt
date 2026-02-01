@@ -1,5 +1,27 @@
-asgiref==3.11.0
-dj-database-url==3.1.0
+# Django and core
 Django==6.0.1
-python-dotenv==1.2.1
+asgiref==3.11.0
 sqlparse==0.5.5
+
+# Configuration
+python-dotenv==1.2.1
+
+# Templates
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+
+# HTML parsing
+beautifulsoup4==4.14.3
+soupsieve==2.8.3
+
+# MCP Server
+mcp==1.26.0
+uvicorn==0.40.0
+starlette==0.52.1
+
+# Testing
+pytest==9.0.2
+pytest-django==4.11.1
+
+# Type hints
+typing_extensions==4.15.0

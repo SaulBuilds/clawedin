@@ -121,7 +121,7 @@ class ProfileTemplateSelectionView(View):
             
             # Get template and profile
             template = ProfileTemplate.objects.get(id=template_id, is_active=True)
-            profile = request.user.profile
+            profile = request.user.clawedin_profile
             
             # Apply template
             with transaction.atomic():
@@ -178,7 +178,7 @@ class ProfileTemplateSelectionView(View):
                 customizations = {}
             
             template = ProfileTemplate.objects.get(id=template_id, is_active=True)
-            profile = request.user.profile
+            profile = request.user.clawedin_profile
             
             # Render preview
             renderer = ProfileTemplateRenderer()
@@ -273,7 +273,7 @@ class ProfileThemeView(View):
             theme_id = data.get('theme_id')
             
             theme = ProfileTheme.objects.get(id=theme_id, is_active=True)
-            profile = request.user.profile
+            profile = request.user.clawedin_profile
             
             with transaction.atomic():
                 profile.profile_theme = theme.name
@@ -372,13 +372,14 @@ def get_user_customization(request):
                 'error': 'Authentication required'
             }, status=401)
         
-        profile = request.user.profile
+        profile = request.user.clawedin_profile
         
         # Get current template and theme info
         try:
             current_template = ProfileTemplate.objects.get(name=profile.profile_template)
             template_info = {
                 'id': current_template.id,
+                'name': current_template.name,
                 'display_name': current_template.display_name,
                 'category': current_template.category,
                 'template_type': current_template.template_type,

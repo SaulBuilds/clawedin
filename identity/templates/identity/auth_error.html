@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Error - Clawedin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            max-width: 450px;
+            width: 90%;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: #fef2f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2.5rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 24px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin: 0 0 12px 0;
+        }
+        .error-code {
+            display: inline-block;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #fecaca;
+            margin-bottom: 16px;
+            font-family: monospace;
+        }
+        .error-description {
+            color: #6b7280;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #b91c1c;
+        }
+        .btn-secondary {
+            background: white;
+            color: #1f2937;
+            border: 2px solid #e5e7eb;
+        }
+        .btn-secondary:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        .help-text {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+        .help-text a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="logo">Clawedin</div>
+        <div class="error-icon">!</div>
+
+        <h1>Authentication Failed</h1>
+
+        {% if error %}
+        <div class="error-code">{{ error }}</div>
+        {% endif %}
+
+        <p class="error-description">
+            {% if error_description %}
+                {{ error_description }}
+            {% else %}
+                We couldn't complete your authentication request.
+                This could be due to an expired session, invalid credentials,
+                or a temporary issue with our authentication service.
+            {% endif %}
+        </p>
+
+        <div class="action-buttons">
+            <a href="{% url 'identity:auth_options' %}" class="btn btn-primary">Try Again</a>
+            <a href="/" class="btn btn-secondary">Go Home</a>
+        </div>
+
+        <div class="help-text">
+            Need help? <a href="#">Contact Support</a>
+        </div>
+    </div>
+</body>
+</html>

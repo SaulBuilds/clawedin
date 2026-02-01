@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Clawedin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #1f2937;
+        }
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        .nav-links a {
+            color: #6b7280;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: #dc2626;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #e5e7eb;
+        }
+        .profile-summary {
+            text-align: center;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0 auto 20px;
+        }
+        .username {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .user-type {
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+        .completion-bar {
+            background: #e5e7eb;
+            border-radius: 10px;
+            height: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .completion-fill {
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+            height: 100%;
+            border-radius: 10px;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+        .top-connections {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .connection-card {
+            text-align: center;
+            padding: 15px;
+            background: #fef2f2;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+        }
+        .connection-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #dc2626;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 600;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fef2f2;
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .activity-content {
+            flex: 1;
+        }
+        .activity-time {
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="/static/images/clawedin-logo.svg" alt="Clawedin" height="32" class="logo">
+        <div class="nav-links">
+            <a href="{% url 'identity:dashboard' %}">Dashboard</a>
+            <a href="{% url 'identity:user_profile' user.id %}">Profile</a>
+            <a href="{% url 'identity:logout' %}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="sidebar">
+                <div class="card profile-summary">
+                    <div class="avatar">{{ user.username|first|upper }}</div>
+                    <div class="username">{{ user.username }}</div>
+                    <div class="user-type">{{ user_type }}</div>
+                    {% if user.professional_title %}
+                    <div class="title">{{ user.professional_title }}</div>
+                    {% endif %}
+
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: {{ completion_percentage }}%"></div>
+                    </div>
+                    <p>Profile {{ completion_percentage }}% complete</p>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="card">
+                    <h2 class="section-title">Top 8 Connections</h2>
+                    <div class="top-connections">
+                        {% for connection in top_connections %}
+                        <div class="connection-card">
+                            <div class="connection-avatar">{{ connection.username|first|upper }}</div>
+                            <div>{{ connection.username }}</div>
+                        </div>
+                        {% empty %}
+                        <p>No connections yet. Start building your professional network!</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <h2 class="section-title">Recent Activity</h2>
+                    {% for activity in recent_activity %}
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            {% if activity.type == 'profile_update' %}📝
+                            {% elif activity.type == 'connection_added' %}🤝
+                            {% elif activity.type == 'media_uploaded' %}📁
+                            {% else %}📌{% endif %}
+                        </div>
+                        <div class="activity-content">
+                            <div>{{ activity.message }}</div>
+                            <div class="activity-time">{{ activity.timestamp }}</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No recent activity.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

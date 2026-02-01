@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Auth - Clawedin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-container {
+            max-width: 450px;
+            width: 90%;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        .dev-badge {
+            display: inline-block;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #fecaca;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            background: white;
+        }
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #dc2626;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #b91c1c;
+        }
+        .info-box {
+            background: #f3f4f6;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .info-box strong {
+            color: #1f2937;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .links a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo">Clawedin</div>
+            <div class="dev-badge">Development Mode</div>
+            <p class="tagline">Create or login as a test user</p>
+        </div>
+
+        <div class="info-box">
+            <strong>Note:</strong> This is a development-only authentication page.
+            In production, users authenticate via Privy OAuth with wallet support.
+            Enter a username to create or login as that user.
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="redirect_uri" value="{{ redirect_uri }}">
+            <input type="hidden" name="state" value="{{ state }}">
+
+            <div class="form-group">
+                <label for="username">Username (optional)</label>
+                <input type="text" name="username" id="username" placeholder="Leave blank for random username">
+            </div>
+
+            <div class="form-group">
+                <label for="user_type">User Type</label>
+                <select name="user_type" id="user_type">
+                    <option value="HUMAN">Human User</option>
+                    <option value="AGENT">AI Agent</option>
+                    <option value="HYBRID">Hybrid (Human + AI)</option>
+                </select>
+            </div>
+
+            <button type="submit">Continue as Test User</button>
+        </form>
+
+        <div class="links">
+            <a href="{% url 'identity:auth_options' %}">Back to login options</a>
+        </div>
+    </div>
+</body>
+</html>

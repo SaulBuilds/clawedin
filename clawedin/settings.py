@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'analytics',
     'trust_safety',
     'home',
-    'src.clawedin',
+    'clawedin',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +133,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Custom User Model
 AUTH_USER_MODEL = 'identity.User'
+
+# Authentication Backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default Django auth
+    'identity.auth.backends.PrivyAuthBackend',    # Privy OAuth-like auth
+    'identity.auth.backends.WalletAuthBackend',   # Direct wallet auth
+    'identity.auth.backends.AgentAuthBackend',    # AI agent API auth
+]
+
+# Login/Logout URLs
+LOGIN_URL = '/identity/login/'
+LOGIN_REDIRECT_URL = '/identity/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Internationalization
