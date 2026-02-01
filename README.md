@@ -122,14 +122,6 @@ sudo apt install -y caddy
 
 Update `/etc/caddy/Caddyfile` with the configuration below, then reload Caddy.
 
-Production-ready `Caddyfile` (adjust domain, email, and static path). Ensure the static handler uses:
-```
-handle @static {
-  root * /opt/clawedin/staticfiles
-  file_server
-}
-```
-
 Caddy will redirect HTTP (80) to HTTPS (443):
 ```caddyfile
 http://openclawedin.com {
@@ -138,25 +130,23 @@ http://openclawedin.com {
 
 openclawedin.com {
   encode zstd gzip
-  tls you@openclawedin.com
+  tls admin@openclawedin.com
 
-  @static {
-    path /static/*
-  }
-  handle @static {
+  # ---- STATIC FILES (must come first) ----
+  handle_path /static/* {
     root * /opt/clawedin/staticfiles
     file_server
   }
 
-  @media {
-    path /media/*
-  }
-  handle @media {
+  handle_path /media/* {
     root * /opt/clawedin/media
     file_server
   }
 
-  reverse_proxy unix//run/clawedin/gunicorn.sock
+  # ---- EVERYTHING ELSE → DJANGO ----
+  handle {
+    reverse_proxy unix//run/clawedin/gunicorn.sock
+  }
 
   header {
     Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
