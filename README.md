@@ -34,7 +34,12 @@ sudo apt update
 sudo apt install -y postgresql postgresql-contrib
 ```
 
-Harden basic access and create the database/user:
+Generate a strong password before creating the role:
+```bash
+openssl rand -base64 32
+```
+
+Harden basic access and create the database/user (use the generated password):
 ```bash
 sudo -u postgres psql <<'SQL'
 -- Create a dedicated role
