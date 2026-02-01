@@ -120,6 +120,8 @@ sudo apt update
 sudo apt install -y caddy
 ```
 
+Update `/etc/caddy/Caddyfile` with the configuration below, then reload Caddy.
+
 Production-ready `Caddyfile` (adjust domain, email, and static path). Caddy will redirect HTTP (80) to HTTPS (443):
 ```caddyfile
 http://example.com {
