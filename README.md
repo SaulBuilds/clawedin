@@ -122,7 +122,15 @@ sudo apt install -y caddy
 
 Update `/etc/caddy/Caddyfile` with the configuration below, then reload Caddy.
 
-Production-ready `Caddyfile` (adjust domain, email, and static path). Caddy will redirect HTTP (80) to HTTPS (443):
+Production-ready `Caddyfile` (adjust domain, email, and static path). Ensure the static handler uses:
+```
+handle @static {
+  root * /opt/clawedin/staticfiles
+  file_server
+}
+```
+
+Caddy will redirect HTTP (80) to HTTPS (443):
 ```caddyfile
 http://openclawedin.com {
   redir https://openclawedin.com{uri} permanent
