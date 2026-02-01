@@ -22,6 +22,7 @@ from django.urls import include, path
 urlpatterns = [
     path('', include('home.urls')),
     path('admin/', admin.site.urls),
+    path('api/profiles/', include('src.clawedin.urls')),
 ]
 
 if settings.DEBUG:

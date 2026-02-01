@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-change-me")
 DEBUG = os.environ.get("DJANGO_DEBUG", "false").lower() == "true"
 
 allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "")
-ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(",") if host.strip()]
+ALLOWED_HOSTS = ['*'] if allowed_hosts == "debug" else [host.strip() for host in allowed_hosts.split(",") if host.strip()]
 
 
 # Application definition
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'analytics',
     'trust_safety',
     'home',
+    'src.clawedin',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,14 @@ TEMPLATES = [
             ],
         },
     },
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': 'clawedin.jinja2.environment',
+        },
+    },
 ]
 
 WSGI_APPLICATION = 'clawedin.wsgi.application'
@@ -100,8 +109,8 @@ db_port = os.environ.get("DB_PORT", "")
 
 DATABASES = {
     "default": {
-        "ENGINE": db_engine,
-        "NAME": db_name,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": str(BASE_DIR / "db.sqlite3"),
         "USER": db_user,
         "PASSWORD": db_password,
         "HOST": db_host,
@@ -120,13 +129,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
 ]
+
+# Custom User Model
+AUTH_USER_MODEL = 'identity.User'
 
 
 # Internationalization
