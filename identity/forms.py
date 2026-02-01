@@ -27,7 +27,7 @@ class RegisterForm(UserCreationForm):
             "username",
             "email",
             "display_name",
-            "account_type",
+            "user_type",
             "user_agent",
             "password1",
             "password2",
@@ -40,11 +40,12 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = (
             "display_name",
             "email",
-            "account_type",
+            "user_type",
             "user_agent",
             "bio",
             "location",
             "website",
+            "professional_title",
         )
 
 

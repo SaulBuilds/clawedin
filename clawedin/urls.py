@@ -55,10 +55,10 @@ urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
 
-    # Identity app (authentication, profiles) - supports both namespaced and non-namespaced
+    # Identity app (authentication, profiles)
     path('identity/', include('identity.urls', namespace='identity')),
-    path('', include('identity.urls')),  # Upstream compatibility
-    path('agent/', include('identity.urls')),  # Agent endpoints
+    path('', include(('identity.urls', 'identity'), namespace='identity_root')),  # Upstream compatibility
+    path('agent/', include(('identity.urls', 'identity'), namespace='identity_agent')),  # Agent endpoints
 
     # Content and social features
     path('', include('content.urls')),

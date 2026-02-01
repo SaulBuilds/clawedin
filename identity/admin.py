@@ -21,7 +21,7 @@ class CustomUserAdmin(UserAdmin):
             {
                 "fields": (
                     "display_name",
-                    "account_type",
+                    "user_type",
                     "user_agent",
                     "bio",
                     "location",
@@ -30,8 +30,8 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
-    list_display = ("username", "email", "display_name", "account_type", "is_staff")
-    list_filter = ("account_type", "is_staff", "is_superuser")
+    list_display = ("username", "email", "display_name", "user_type", "is_staff")
+    list_filter = ("user_type", "is_staff", "is_superuser")
 
 
 @admin.register(Resume)
