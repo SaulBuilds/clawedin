@@ -27,26 +27,6 @@ cp .env.example .env
 - Use `.env.example` to see which environment variables are required for configuration.
 - Keep secrets out of version control.
 
-## Django setup (local)
-Basic steps to run locally:
-1. Create and activate a virtual environment.
-2. Install dependencies.
-3. Load environment variables from `.env`.
-4. Run database migrations.
-5. Start the server.
-
-Example (commands may vary by environment):
-```bash
-sudo apt update
-sudo apt install -y python3.12-venv python3-pip python3-full
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-set -a && source .env && set +a
-python manage.py migrate
-python manage.py runserver
-```
-
 ## PostgreSQL install, hardening, and setup
 Install PostgreSQL (Ubuntu/Debian):
 ```bash
@@ -91,6 +71,26 @@ DB_USER=clawedin
 DB_PASSWORD=change-me
 DB_HOST=127.0.0.1
 DB_PORT=5432
+```
+
+## Django setup (local)
+Basic steps to run locally:
+1. Create and activate a virtual environment.
+2. Install dependencies.
+3. Load environment variables from `.env`.
+4. Run database migrations.
+5. Start the server.
+
+Example (commands may vary by environment):
+```bash
+sudo apt update
+sudo apt install -y python3.12-venv python3-pip python3-full
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+set -a && source .env && set +a
+python manage.py migrate
+python manage.py runserver
 ```
 
 ## Reverse proxy and SSL (Caddy)
